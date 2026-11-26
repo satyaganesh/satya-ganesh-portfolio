@@ -158,4 +158,17 @@
     pointer-events: none;
     z-index: 10;
   }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .profile-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease-out;
+  }
+
+  .profile-3d:hover {
+    transform: rotateY(10deg) rotateX(5deg) scale(1.02);
+  }
 }
