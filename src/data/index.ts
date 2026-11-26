@@ -1,2 +1,2 @@
-export { projects, experiences, skillCategories, contactInfo, socialLinks, siteConfig } from './portfolio';
-export type { Project, Experience, SkillCategory, ContactInfo } from './portfolio';
+export { projects, experiences, skillCategories, pipelineSteps, aboutChapters, frameworkNodes, frameworkFeatures, contactInfo, socialLinks, siteConfig } from './portfolio';
+export type { Project, Experience, SkillCategory } from './portfolio';

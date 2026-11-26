@@ -1,12 +1,15 @@
 export interface Project {
   id: number;
   title: string;
-  description: string;
+  shortTitle: string;
+  domain: string;
+  overview: string;
+  strategy: string;
+  tools: string[];
+  challenges: string;
+  outcome: string;
   image: string;
-  technologies: string[];
   category: string;
-  github: string;
-  live: string;
   featured: boolean;
 }
 
@@ -23,60 +26,79 @@ export interface Experience {
 export interface SkillCategory {
   name: string;
   color: string;
-  skills: { name: string; level: number }[];
-}
-
-export interface ContactInfo {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-  href: string | null;
+  skills: string[];
 }
 
 export const projects: Project[] = [
   {
     id: 1,
-    title: 'Simpplr – Salesforce to AWS Customer Data Migration Validation Framework',
-    description: 'Designed and developed a centralized, reusable data validation framework to automate verification of 800+ customer migrations from Salesforce to AWS. The framework captured source data from Salesforce and validated against migrated AWS data, identifying discrepancies and reducing manual validation effort. Built automated source-to-target data validation logic with repeatable execution across migration cycles.',
-    image: 'https://picsum.photos/seed/migration/800/600',
-    technologies: ['Salesforce', 'AWS', 'Data Validation', 'Automation Framework', 'Migration Testing'],
-    category: 'Data Migration',
-    github: 'https://github.com',
-    live: 'https://example.com',
+    title: 'Simpplr Performance Engineering',
+    shortTitle: 'Simpplr',
+    domain: 'AI / SaaS Platform',
+    overview: 'Centralized K6 performance testing framework with reusable TypeScript modules, automated reporting, and CI/CD integration for AI-powered applications.',
+    strategy: 'Entity-based execution model with configurable workload executors, baseline comparison, and InfluxDB + Grafana observability. GitHub Actions and Jenkins support for continuous performance validation.',
+    tools: ['K6', 'TypeScript', 'InfluxDB', 'Grafana', 'GitHub Actions', 'Jenkins'],
+    challenges: 'Connection pinning issues, RDS Proxy misconfigurations, and memory leaks in LLM orchestrator applications under variable AI inference loads.',
+    outcome: 'Reduced test creation time through reusable framework. Established observability pipeline for real-time AI/ML performance insights.',
+    image: 'images/profile.jpg',
+    category: 'AI Performance',
     featured: true,
   },
   {
     id: 2,
-    title: 'United Airlines – UAL Dotcom Cloud Migration Performance Testing',
-    description: 'Led performance testing for United Airlines\' on-premises to AWS cloud migration initiative. Conducted multiple performance testing cycles using LoadRunner to compare application behavior, response times, throughput, and resource utilization between environments. Used Datadog and Dynatrace for cloud performance monitoring and comparative analysis to support migration readiness decisions.',
+    title: 'United Airlines — Cloud Migration Performance',
+    shortTitle: 'United Airlines',
+    domain: 'Airline / Cloud Migration',
+    overview: 'Performance testing of on-premises to AWS migration. Comparative testing across environments to support migration readiness decisions.',
+    strategy: 'Multiple performance testing cycles using LoadRunner comparing application behavior, response times, throughput, and resource utilization. Datadog and Dynatrace for cloud performance monitoring.',
+    tools: ['LoadRunner', 'ALM', 'Datadog', 'Dynatrace', 'AWS'],
+    challenges: 'Ensuring zero performance regression during migration. Comparative analysis across on-prem and cloud infrastructure.',
+    outcome: 'Supported data-driven migration readiness decisions through comparative performance analysis.',
     image: 'images/united-airlines.jpg',
-    technologies: ['LoadRunner', 'ALM', 'Datadog', 'Dynatrace', 'AWS', 'Performance Testing'],
     category: 'Cloud Migration',
-    github: 'https://github.com',
-    live: 'https://example.com',
     featured: true,
   },
   {
     id: 3,
-    title: 'Mitchell 1 – Automotive Software Performance Testing',
-    description: 'Performed comprehensive performance testing for automotive repair software platform. Developed LoadRunner scripts with parameterization, correlation, and dynamic data handling. Executed load, stress, and performance scenarios using Performance Center. Analyzed bottlenecks using Dynatrace, Splunk, Oracle AWR, and LoadRunner Analysis. Collaborated cross-functionally with development, infrastructure, and database teams.',
+    title: 'Mitchell 1 — Automotive Performance',
+    shortTitle: 'Mitchell 1',
+    domain: 'Automotive Software',
+    overview: 'Comprehensive performance testing for automotive repair software platform. Load, stress, and endurance scenarios.',
+    strategy: 'LoadRunner scripts with parameterization, correlation, and dynamic data handling. Performance Center for scenario execution. Dynatrace, Splunk, Oracle AWR for bottleneck analysis.',
+    tools: ['LoadRunner', 'Performance Center', 'Dynatrace', 'Splunk', 'Oracle AWR'],
+    challenges: 'Cross-functional collaboration with development, infrastructure, and database teams. Complex business workflows with dynamic data.',
+    outcome: 'Detailed root cause analysis and optimization recommendations delivered through comprehensive performance reports.',
     image: 'https://picsum.photos/seed/automotive/800/600',
-    technologies: ['LoadRunner', 'Performance Center', 'Dynatrace', 'Splunk', 'Oracle AWR', 'Performance Testing'],
     category: 'Performance Testing',
-    github: 'https://github.com',
-    live: 'https://example.com',
     featured: false,
   },
   {
     id: 4,
-    title: 'RSuite – CCMS Performance Testing',
-    description: 'Executed performance testing for Component Content Management System (CCMS) platform. Developed LoadRunner scripts simulating business workflows and user interactions. Designed workload scenarios and executed tests using LoadRunner Controller. Monitored application performance with AppDynamics and managed test execution through ALM. Delivered performance reports with findings and optimization recommendations.',
+    title: 'RSuite — CCMS Performance',
+    shortTitle: 'RSuite',
+    domain: 'Content Management',
+    overview: 'Performance testing for Component Content Management System (CCMS) platform. Web and web services testing.',
+    strategy: 'LoadRunner scripts simulating business workflows. Workload modeling and test data preparation. AppDynamics for monitoring. ALM for test execution management.',
+    tools: ['LoadRunner', 'AppDynamics', 'ALM'],
+    challenges: 'Complex content management workflows with varied user interactions and data patterns.',
+    outcome: 'Performance reports with findings and optimization recommendations for the CCMS platform.',
     image: 'images/Rsuite.jpg',
-    technologies: ['LoadRunner', 'AppDynamics', 'ALM', 'Performance Testing', 'Content Management'],
     category: 'Performance Testing',
-    github: 'https://github.com',
-    live: 'https://example.com',
     featured: false,
+  },
+  {
+    id: 5,
+    title: 'AI & LLM Performance Testing',
+    shortTitle: 'AI / LLM',
+    domain: 'AI / Machine Learning',
+    overview: 'Performance testing and experimentation for AI/LLM-powered applications. Concurrency, burst traffic, latency, and resource utilization analysis.',
+    strategy: 'Mock-based performance testing, concurrency testing, burst traffic simulation. Langfuse for LLM tracing. Kubernetes pod auto-scaling validation.',
+    tools: ['K6', 'JMeter', 'Langfuse', 'Kubernetes', 'Grafana', 'Coralogix'],
+    challenges: 'Variable AI inference loads, token optimization, memory leaks in orchestrator applications, and auto-scaling policy design.',
+    outcome: 'End-to-end observability pipeline. Auto-scaling policies for variable AI inference loads. Memory leak identification and resolution.',
+    image: 'https://picsum.photos/seed/ai-llm/800/600',
+    category: 'AI Performance',
+    featured: true,
   },
 ];
 
@@ -84,7 +106,7 @@ export const experiences: Experience[] = [
   {
     role: 'Test Engineer',
     company: 'Simpplr',
-    period: '2023 - Present',
+    period: '2023 — Present',
     location: 'Remote',
     description: 'Spearheading AI performance testing initiatives for LLM-powered applications. Managing Kubernetes architecture for pod auto-scaling and response time optimization. Building comprehensive observability stacks for AI/ML workloads.',
     technologies: ['JMeter', 'K6', 'Kubernetes', 'Langfuse', 'Jenkins', 'AWS', 'GitHub', 'Coralogix', 'GroundCover', 'Grafana', 'CloudWatch', 'Jira'],
@@ -99,7 +121,7 @@ export const experiences: Experience[] = [
   {
     role: 'SQA Analyst',
     company: 'RSI Content Solutions India Pvt Ltd',
-    period: 'Aug 2022 - Jun 2023',
+    period: 'Aug 2022 — Jun 2023',
     location: 'Chennai, India',
     description: 'Led performance testing and engineering initiatives for on-premise infrastructure. Conducted deep bottleneck analysis across application and database layers, establishing performance baselines and optimization strategies.',
     technologies: ['JMeter', 'Grafana', 'JUnit', 'PerfMon', 'AppDynamics', 'Linux'],
@@ -114,7 +136,7 @@ export const experiences: Experience[] = [
   {
     role: 'Senior Quality Assurance Engineer',
     company: 'Genisys Group',
-    period: '2021 - 2022',
+    period: '2021 — 2022',
     location: 'Remote',
     description: 'Maintained and extended enterprise performance testing framework using LoadRunner. Developed complex test scripts for business-critical applications and collaborated with stakeholders on AWS migration performance validation.',
     technologies: ['LoadRunner', 'Fiddler', 'DataDog', 'AppDynamics', 'Postman', 'AWS'],
@@ -130,68 +152,85 @@ export const experiences: Experience[] = [
 
 export const skillCategories: SkillCategory[] = [
   {
-    name: 'Performance Testing Tools',
-    color: '#0ea5e9',
-    skills: [
-      { name: 'JMeter', level: 95 },
-      { name: 'K6', level: 90 },
-      { name: 'LoadRunner', level: 85 },
-      { name: 'Gatling', level: 75 },
-      { name: 'Locust', level: 70 },
-      { name: 'Artillery', level: 65 },
-    ],
+    name: 'Performance Testing',
+    color: '#c9a96e',
+    skills: ['K6', 'LoadRunner', 'JMeter', 'Gatling', 'Locust', 'Artillery', 'Performance Center'],
   },
   {
-    name: 'Observability & Monitoring',
-    color: '#22c55e',
-    skills: [
-      { name: 'Grafana', level: 90 },
-      { name: 'AppDynamics', level: 85 },
-      { name: 'DataDog', level: 80 },
-      { name: 'Coralogix', level: 85 },
-      { name: 'GroundCover', level: 80 },
-      { name: 'CloudWatch', level: 85 },
-      { name: 'Prometheus', level: 75 },
-      { name: 'Langfuse', level: 70 },
-    ],
+    name: 'Automation',
+    color: '#a8a49e',
+    skills: ['TypeScript', 'JavaScript', 'Python', 'Reusable Frameworks', 'CI/CD Automation', 'Groovy', 'Shell Scripting'],
   },
   {
-    name: 'Infrastructure & Cloud',
-    color: '#f59e0b',
-    skills: [
-      { name: 'Kubernetes', level: 85 },
-      { name: 'AWS', level: 85 },
-      { name: 'Docker', level: 90 },
-      { name: 'Jenkins', level: 85 },
-      { name: 'Linux/Shell', level: 85 },
-      { name: 'Terraform', level: 70 },
-      { name: 'CI/CD Pipelines', level: 85 },
-    ],
+    name: 'Observability',
+    color: '#cfcac2',
+    skills: ['Grafana', 'InfluxDB', 'Datadog', 'AppDynamics', 'Dynatrace', 'CloudWatch', 'Coralogix', 'GroundCover', 'Langfuse', 'Prometheus', 'Splunk'],
   },
   {
-    name: 'Scripting & Automation',
-    color: '#ef4444',
-    skills: [
-      { name: 'Groovy', level: 80 },
-      { name: 'JavaScript', level: 85 },
-      { name: 'Python', level: 80 },
-      { name: 'Shell Scripting', level: 85 },
-      { name: 'Git', level: 95 },
-      { name: 'JUnit/TestNG', level: 75 },
-    ],
+    name: 'Cloud & Infrastructure',
+    color: '#efebe4',
+    skills: ['AWS', 'Kubernetes', 'Docker', 'Jenkins', 'Terraform', 'Linux', 'Microservices', 'Distributed Systems'],
   },
   {
-    name: 'AI/ML Performance',
-    color: '#8b5cf6',
-    skills: [
-      { name: 'LLM Orchestration', level: 80 },
-      { name: 'Token Optimization', level: 75 },
-      { name: 'RAG Evaluation', level: 70 },
-      { name: 'Langfuse Tracing', level: 80 },
-      { name: 'Prompt Engineering', level: 70 },
-      { name: 'Model Benchmarking', level: 75 },
-    ],
+    name: 'API Testing',
+    color: '#f7f5f1',
+    skills: ['Postman', 'REST APIs', 'HTTP', 'WebSocket Testing', 'Fiddler'],
   },
+  {
+    name: 'Engineering',
+    color: '#c9a96e',
+    skills: ['Performance Analysis', 'Workload Modelling', 'Bottleneck Analysis', 'Capacity Planning', 'Baseline Analysis', 'Stress Testing', 'Endurance Testing', 'Scalability Testing', 'Regression Testing'],
+  },
+  {
+    name: 'AI Performance',
+    color: '#a8a49e',
+    skills: ['LLM Testing', 'AI Application Performance', 'Concurrency Testing', 'Burst Testing', 'Mock-Based Testing', 'AI Agent Performance'],
+  },
+];
+
+export const pipelineSteps = [
+  { num: '01', title: 'Requirement & NFR Analysis', desc: 'Understanding system behavior under load' },
+  { num: '02', title: 'Workload Modelling', desc: 'Simulating peak production traffic patterns' },
+  { num: '03', title: 'Test Data Preparation', desc: 'Parameterization and dynamic data handling' },
+  { num: '04', title: 'Script Development', desc: 'Reusable, modular test scripts' },
+  { num: '05', title: 'Test Execution', desc: 'Load, stress, endurance scenarios' },
+  { num: '06', title: 'Monitoring & Observability', desc: 'Real-time metrics and distributed tracing' },
+  { num: '07', title: 'Bottleneck Identification', desc: 'Root cause analysis across the stack' },
+  { num: '08', title: 'Performance Optimization', desc: 'Improving scalability and reliability' },
+  { num: '09', title: 'Regression Validation', desc: 'Ensuring zero performance regression' },
+  { num: '10', title: 'Reporting & Recommendations', desc: 'Data-driven insights and optimization strategies' },
+];
+
+export const aboutChapters = [
+  { num: '01', title: 'Performance', desc: 'Understanding system behavior under load.' },
+  { num: '02', title: 'Engineering', desc: 'Building reusable performance testing frameworks.' },
+  { num: '03', title: 'Observability', desc: 'Finding bottlenecks through data and monitoring.' },
+  { num: '04', title: 'Optimization', desc: 'Improving performance, scalability and reliability.' },
+];
+
+export const frameworkNodes = [
+  { label: 'Test Config', icon: '⚙️' },
+  { label: 'Entity', icon: '📦' },
+  { label: 'Script', icon: '📝' },
+  { label: 'Load Execution', icon: '🚀' },
+  { label: 'Metrics', icon: '📊' },
+  { label: 'Analysis', icon: '🔍' },
+  { label: 'Report', icon: '📋' },
+];
+
+export const frameworkFeatures = [
+  'Modular TypeScript architecture',
+  'Entity-based execution',
+  'Reusable test scripts',
+  'Configurable workload executors',
+  'Test data management',
+  'Baseline comparison',
+  'HTML reporting',
+  'Slack notifications',
+  'GitHub Actions integration',
+  'Jenkins support',
+  'Grafana & InfluxDB integration',
+  'Automated performance analysis',
 ];
 
 export const contactInfo = [
@@ -208,13 +247,12 @@ export const socialLinks = [
 
 export const siteConfig = {
   name: 'Satya Ganesh',
-  title: 'AI Performance Test Engineer',
-  description: 'Experienced Software Engineer (Performance) with a demonstrated history of working in the Information Technology and Services Industry. Strong experience in Performance Testing using LoadRunner and hands-on with JMeter. Working experience in Airline Domain, eCommerce, and Content Management Systems. Involved in all phases of the Performance Testing Life Cycle. Analyzed Performance Test Business Scenarios.',
-  url: 'https://portfolio.example.com',
-  ogImage: 'https://portfolio.example.com/og.jpg',
+  title: 'Performance Test Engineer',
+  tagline: 'Engineering performance. Revealing bottlenecks. Building resilience.',
+  description: 'Performance Test Engineer focused on performance testing, performance engineering, workload modelling, bottleneck identification, automation frameworks, monitoring, performance optimization and scalable systems.',
+  url: 'https://satyaganesh.github.io/satya-ganesh-portfolio/',
   links: {
     github: 'https://github.com/satyaganesh',
     linkedin: 'https://www.linkedin.com/in/rs-ganesh-bb349b246',
-    twitter: 'https://twitter.com',
   },
 };

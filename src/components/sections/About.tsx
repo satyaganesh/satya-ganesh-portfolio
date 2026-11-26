@@ -1,138 +1,82 @@
-'use client';
-
 import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Code, Server, Shield, Cloud } from 'lucide-react';
-import { Section } from '@/components/ui/Section';
-import { Card } from '@/components/ui/Card';
-import { useGSAP, useReducedMotion } from '@/hooks/useGSAP';
-import { siteConfig, skillCategories } from '@/data';
+import { aboutChapters, siteConfig } from '@/data';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  'Performance Testing Tools': Shield,
-  'Observability & Monitoring': Code,
-  'Infrastructure & Cloud': Cloud,
-  'Scripting & Automation': Server,
-  'AI/ML Performance': Server,
-};
-
 export function About() {
-  const reducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
-  useGSAP(() => {});
 
   useEffect(() => {
-    if (reducedMotion) return;
-
-    const elements = sectionRef.current?.querySelectorAll('.animate-item');
-    if (elements) {
-      gsap.fromTo(
-        elements,
-        { opacity: 0, y: 30 },
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.chapter',
+        { opacity: 0, y: 60 },
         {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 75%',
-          },
+          opacity: 1, y: 0, duration: 1, stagger: 0.15, ease: 'power3.out',
+          scrollTrigger: { trigger: '.chapters-grid', start: 'top 80%' },
         }
       );
-    }
-  }, [reducedMotion]);
+      gsap.fromTo('.about-text',
+        { opacity: 0, x: -40 },
+        {
+          opacity: 1, x: 0, duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: '.about-text', start: 'top 85%' },
+        }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <Section id="about" ref={sectionRef} background="gradient">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="text-primary-400 text-sm font-medium tracking-wider uppercase">About Me</span>
-          <h2 className="section-title mt-2 text-dark-50">Performance Engineering Specialist</h2>
-          <p className="section-subtitle mx-auto">
-            {siteConfig.description}
-          </p>
-        </div>
+    <section id="about" ref={sectionRef} className="relative py-32 lg:py-48 bg-charcoal overflow-hidden">
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-graphite/30 to-transparent" />
 
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="relative animate-item">
-            <div className="aspect-square max-w-xs mx-auto md:max-w-none perspective-1000">
-              <div className="profile-3d relative w-full h-full rounded-2xl border border-dark-700 shadow-2xl shadow-primary-500/10 overflow-hidden transition-transform duration-300 ease-out">
-                <img
-                  src="images/profile.jpg"
-                  alt={`${siteConfig.name} - AI Performance Test Engineer`}
-                  className="w-full h-full object-cover"
-                />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div className="about-text">
+            <p className="eyebrow mb-6">About</p>
+            <h2 className="section-title text-ivory mb-8">
+              Performance is<br />
+              <span className="font-serif italic text-accent normal-case tracking-normal">not a feature.</span><br />
+              It's a discipline.
+            </h2>
+            <div className="space-y-6 text-silver leading-relaxed">
+              <p className="text-lg">
+                I am a <span className="text-ivory">{siteConfig.title}</span> focused on performance testing,
+                performance engineering, workload modelling, bottleneck identification, automation frameworks,
+                monitoring, performance optimization and scalable systems.
+              </p>
+              <p>
+                My experience includes enterprise applications, cloud migration validation, content management
+                platforms, API performance, distributed systems and modern AI-driven applications.
+              </p>
+            </div>
+
+            <div className="mt-10 flex items-center gap-4">
+              <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-accent/30">
+                <img src="images/profile.jpg" alt={siteConfig.name} className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p className="text-ivory font-medium">{siteConfig.name}</p>
+                <p className="text-silver text-sm">{siteConfig.title}</p>
               </div>
             </div>
           </div>
 
-          <div className="space-y-6">
-            <div className="animate-item">
-              <h3 className="text-2xl font-bold text-dark-50 mb-4">Who I Am</h3>
-              <p className="text-dark-300 leading-relaxed">
-                AI Performance Test Engineer with 5+ years of experience in performance engineering, 
-                load testing, and cloud migration validation. Currently at Simpplr, leading AI/ML 
-                performance initiatives and building observability stacks for LLM-powered applications.
-              </p>
-            </div>
-            <div className="animate-item">
-              <h3 className="text-2xl font-bold text-dark-50 mb-4">What I Do</h3>
-              <p className="text-dark-300 leading-relaxed">
-                Specialize in end-to-end performance testing lifecycle: from NFR analysis and workload 
-                modeling to bottleneck identification and optimization. Expert in migrating workloads 
-                from on-premises to cloud (AWS), with hands-on experience in enterprise domains 
-                including Airlines, Automotive, and Content Management.
-              </p>
-            </div>
-            <div className="animate-item">
-              <h3 className="text-2xl font-bold text-dark-50 mb-4">My Approach</h3>
-              <ul className="space-y-3 text-dark-300">
-                {[
-                  'Data-driven performance engineering with measurable outcomes',
-                  'Automation-first mindset: reusable frameworks over one-off scripts',
-                  'Cross-functional collaboration with dev, infra, and DB teams',
-                  'Continuous observability: monitoring beyond test execution',
-                  'AI/ML performance: emerging frontier for load testing',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <span className="w-2 h-2 rounded-full bg-primary-500 flex-shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="chapters-grid space-y-2">
+            {aboutChapters.map((ch) => (
+              <div key={ch.num} className="chapter group flex items-start gap-6 p-6 lg:p-8 border border-slate/30 hover:border-accent/40 transition-colors bg-graphite/20">
+                <span className="chapter-num">{ch.num}</span>
+                <div>
+                  <h3 className="font-display text-2xl lg:text-3xl uppercase text-ivory tracking-wide mb-2">{ch.title}</h3>
+                  <p className="text-silver">{ch.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {skillCategories.map((category, i) => {
-            const Icon = categoryIcons[category.name as keyof typeof categoryIcons] || Shield;
-            return (
-              <Card key={category.name} variant="hover" className="animate-item" style={{ animationDelay: `${i * 0.1}s` }}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 rounded-lg bg-primary-500/10 text-primary-400">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h4 className="font-semibold text-dark-50">{category.name}</h4>
-                </div>
-                <ul className="space-y-2">
-                  {category.skills.map((skill) => (
-                    <li key={skill.name} className="text-sm text-dark-400 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary-500/50" />
-                      {skill.name}
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            );
-          })}
-        </div>
       </div>
-    </Section>
+    </section>
   );
 }

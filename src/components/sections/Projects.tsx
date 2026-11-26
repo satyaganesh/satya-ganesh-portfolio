@@ -1,163 +1,122 @@
-'use client';
-
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Github, ExternalLink, Tag, Star, Eye } from 'lucide-react';
-import { Section } from '@/components/ui/Section';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { useGSAP, useReducedMotion } from '@/hooks/useGSAP';
 import { projects } from '@/data';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function Projects() {
-  const reducedMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
-  const [activeCategory, setActiveCategory] = useState('All');
-  useGSAP(() => {});
-
-  const categories = ['All', ...new Set(projects.map(p => p.category))];
-
-  const filteredProjects = activeCategory === 'All'
-    ? projects
-    : projects.filter((p) => p.category === activeCategory);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-
-    const elements = sectionRef.current?.querySelectorAll('.project-card');
-    if (elements) {
-      gsap.fromTo(
-        elements,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.08,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 75%',
-          },
-        }
-      );
-    }
-  }, [reducedMotion, activeCategory]);
+function BrowserCard({ project, index }: { project: typeof projects[0]; index: number }) {
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <Section id="projects" ref={sectionRef} background="gradient">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="text-primary-400 text-sm font-medium tracking-wider uppercase">Projects</span>
-          <h2 className="section-title mt-2 text-dark-50">Selected Work</h2>
-          <p className="section-subtitle mx-auto">
-            A collection of projects showcasing modern web development practices and innovative solutions.
-          </p>
+    <div
+      className="project-card group relative bg-graphite border border-slate/40 overflow-hidden transition-all duration-500 hover:border-accent/50"
+      style={{ animationDelay: `${index * 0.1}s` }}
+    >
+      <div className="flex items-center gap-2 px-4 py-3 bg-charcoal border-b border-slate/30">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
+          <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
+          <div className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
+        </div>
+        <div className="flex-1 text-center">
+          <span className="text-[10px] text-silver/50 font-mono truncate block">
+            {project.shortTitle.toLowerCase().replace(/\s+/g, '-')}.portfolio
+          </span>
+        </div>
+      </div>
+
+      <div className="p-6 lg:p-8">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-[10px] tracking-[0.2em] uppercase text-accent font-medium">{project.domain}</span>
+          {project.featured && (
+            <span className="text-[9px] px-2 py-0.5 bg-accent/15 text-accent uppercase tracking-wider">Featured</span>
+          )}
         </div>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-12" role="tablist">
-          {categories.map((category) => (
-            <button
-              key={category}
-              role="tab"
-              aria-selected={activeCategory === category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                activeCategory === category
-                  ? 'bg-primary-500 text-dark-950 shadow-lg shadow-primary-500/25'
-                  : 'bg-dark-800 text-dark-300 hover:bg-dark-700 hover:text-dark-50'
-              }`}
-            >
-              {category}
-            </button>
+        <h3 className="font-display text-2xl lg:text-3xl uppercase text-ivory tracking-wide mb-4 leading-tight">
+          {project.title}
+        </h3>
+
+        <p className="text-silver text-sm leading-relaxed mb-6">
+          {project.overview}
+        </p>
+
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.tools.map((tool) => (
+            <span key={tool} className="text-[10px] px-2.5 py-1 bg-slate/40 text-mist border border-slate/50 uppercase tracking-wider">
+              {tool}
+            </span>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
-        </div>
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="text-accent text-xs uppercase tracking-[0.2em] font-medium hover:text-accent-light transition-colors flex items-center gap-2"
+        >
+          {expanded ? 'Less' : 'More'}
+          <span className={`transition-transform ${expanded ? 'rotate-180' : ''}`}>↓</span>
+        </button>
 
-        {filteredProjects.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-dark-400">No projects found in this category.</p>
+        {expanded && (
+          <div className="mt-6 pt-6 border-t border-slate/30 space-y-4 animate-fade-in">
+            <div>
+              <h4 className="text-[10px] uppercase tracking-[0.2em] text-accent mb-2">Strategy</h4>
+              <p className="text-silver text-sm leading-relaxed">{project.strategy}</p>
+            </div>
+            <div>
+              <h4 className="text-[10px] uppercase tracking-[0.2em] text-accent mb-2">Challenges</h4>
+              <p className="text-silver text-sm leading-relaxed">{project.challenges}</p>
+            </div>
+            <div>
+              <h4 className="text-[10px] uppercase tracking-[0.2em] text-accent mb-2">Outcome</h4>
+              <p className="text-silver text-sm leading-relaxed">{project.outcome}</p>
+            </div>
           </div>
         )}
       </div>
-    </Section>
+    </div>
   );
 }
 
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+export function Projects() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.project-card',
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
+          scrollTrigger: { trigger: '.projects-grid', start: 'top 80%' },
+        }
+      );
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <Card variant="hover" className="project-card overflow-hidden" style={{ animationDelay: `${index * 0.08}s` }}>
-      <div className="relative aspect-video overflow-hidden rounded-t-xl mb-4">
-        <img
-          src={project.image}
-          alt={`${project.title} preview`}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-          loading="lazy"
-        />
-        {project.featured && (
-          <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 bg-primary-500 text-dark-950 rounded-full text-xs font-medium">
-            <Star className="w-3 h-3" />
-            Featured
+    <section id="projects" ref={sectionRef} className="relative py-32 lg:py-48 bg-charcoal overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-20">
+          <div>
+            <p className="eyebrow mb-6">Selected Work</p>
+            <h2 className="section-title text-ivory">
+              Projects that<br />
+              <span className="font-serif italic text-accent normal-case tracking-normal">perform.</span>
+            </h2>
           </div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute bottom-3 left-3 right-3 opacity-0 hover:opacity-100 transition-all duration-300 translate-y-2 hover:translate-y-0 flex justify-between">
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 bg-dark-900/80 backdrop-blur-sm border border-dark-600 rounded-lg text-dark-300 hover:text-primary-400 hover:border-primary-500 transition-all"
-            aria-label="View source code"
-          >
-            <Github className="w-5 h-5" />
-          </a>
-          <a
-            href={project.live}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 bg-dark-900/80 backdrop-blur-sm border border-dark-600 rounded-lg text-dark-300 hover:text-primary-400 hover:border-primary-500 transition-all"
-            aria-label="View live demo"
-          >
-            <ExternalLink className="w-5 h-5" />
-          </a>
+          <p className="section-subtitle max-w-md">
+            Real-world performance engineering across AI, cloud migration, automotive, and content management domains.
+          </p>
+        </div>
+
+        <div className="projects-grid grid grid-cols-1 md:grid-cols-2 gap-6">
+          {projects.map((project, i) => (
+            <BrowserCard key={project.id} project={project} index={i} />
+          ))}
         </div>
       </div>
-
-      <div className="flex items-center gap-2 mb-3">
-        <Tag className="w-4 h-4 text-primary-400" />
-        <span className="text-xs font-medium text-primary-400 uppercase tracking-wider">{project.category}</span>
-      </div>
-
-      <h3 className="text-xl font-bold text-dark-50 mb-2">{project.title}</h3>
-      <p className="text-dark-400 text-sm leading-relaxed mb-4 line-clamp-3">{project.description}</p>
-
-      <div className="flex flex-wrap gap-2 mb-4">
-        {project.technologies.slice(0, 4).map((tech) => (
-          <span key={tech} className="px-2 py-1 text-xs bg-dark-800 text-dark-400 border border-dark-600 rounded">
-            {tech}
-          </span>
-        ))}
-        {project.technologies.length > 4 && (
-          <span className="px-2 py-1 text-xs bg-dark-800 text-dark-500 border border-dark-600 rounded">
-            +{project.technologies.length - 4} more
-          </span>
-        )}
-      </div>
-
-      <div className="flex items-center gap-3 pt-3 border-t border-dark-700">
-        <Button variant="ghost" size="sm" className="flex-1 gap-1">
-          <Eye className="w-4 h-4" />
-          View Details
-        </Button>
-      </div>
-    </Card>
+    </section>
   );
 }
