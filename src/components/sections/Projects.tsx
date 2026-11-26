@@ -96,7 +96,7 @@ export function Projects() {
   }, []);
 
   return (
-    <section id="projects" ref={sectionRef} className="relative py-32 lg:py-48 bg-charcoal overflow-hidden">
+    <section id="projects" ref={sectionRef} className="relative py-32 lg:py-48 overflow-hidden bg-charcoal">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-20">
           <div>

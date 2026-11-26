@@ -29,10 +29,11 @@ export function Pipeline() {
   }, []);
 
   return (
-    <section id="pipeline" ref={sectionRef} className="relative py-32 lg:py-48 bg-ink overflow-hidden">
+    <section id="pipeline" ref={sectionRef} className="relative py-32 lg:py-48 overflow-hidden bg-ink">
       <div className="absolute inset-0 opacity-[0.02]" style={{
         backgroundImage: 'linear-gradient(#c9a96e 1px, transparent 1px), linear-gradient(90deg, #c9a96e 1px, transparent 1px)',
         backgroundSize: '60px 60px',
+        opacity: 0.05,
       }} />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

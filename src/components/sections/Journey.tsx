@@ -29,7 +29,7 @@ export function Journey() {
   }, []);
 
   return (
-    <section id="journey" ref={sectionRef} className="relative py-32 lg:py-48 bg-ink overflow-hidden">
+    <section id="journey" ref={sectionRef} className="relative py-32 lg:py-48 overflow-hidden bg-ink">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-20">
           <p className="eyebrow mb-6">The Journey</p>

@@ -74,7 +74,7 @@ function AvatarModel({ animation }: { animation: string }) {
     return () => { action?.fadeOut(0.3); };
   }, [animation, actions]);
 
-  return <primitive object={scene} scale={2.2} position={[3.2, -1.8, 0]} />;
+  return <primitive object={scene} scale={3.5} position={[3.5, -2.2, 0]} />;
 }
 
 function AvatarFallback() {
@@ -91,15 +91,16 @@ function AvatarFallback() {
 function Scene({ avatarAnimation, hasAvatar }: { avatarAnimation: string; hasAvatar: boolean }) {
   return (
     <>
-      <ambientLight intensity={0.6} />
-      <pointLight position={[5, 5, 5]} intensity={1.2} color="#c9a96e" />
-      <pointLight position={[-5, 3, -5]} intensity={0.6} color="#a8a49e" />
+      <ambientLight intensity={1.2} />
+      <pointLight position={[5, 5, 5]} intensity={2} color="#ffd700" />
+      <pointLight position={[-5, 3, -5]} intensity={1} color="#c9a96e" />
+      <pointLight position={[0, 5, -5]} intensity={0.8} color="#ffffff" />
       <ParticleField />
       <FloatingShapes />
       {hasAvatar ? (
         <Suspense fallback={<AvatarFallback />}>
           <AvatarModel animation={avatarAnimation} />
-          <ContactShadows position={[3.2, -2.8, 0]} opacity={0.3} scale={8} blur={2.5} far={4} color="#c9a96e" />
+          <ContactShadows position={[3.5, -3.5, 0]} opacity={0.4} scale={10} blur={2} far={4} color="#000000" />
         </Suspense>
       ) : (
         <AvatarFallback />
@@ -119,7 +120,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ink">
+<section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a1a1d 0%, #1c1c1f 40%, #201a17 100%)' }}>
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0.5, 10], fov: 50 }} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }}>
           <Suspense fallback={null}>
@@ -128,10 +129,10 @@ export function Hero() {
         </Canvas>
       </div>
 
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_#0e0e0f_65%)]" />
+      <div className="absolute inset-0 z-0" style={{ background: 'radial-gradient(ellipse at 70% 50%, rgba(201,169,110,0.15) 0%, transparent 60%)' }} />
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 select-none pointer-events-none">
-        <span className="font-display text-[25vw] leading-none text-ivory/[0.04] uppercase tracking-tight whitespace-nowrap">
+        <span className="font-display text-[25vw] leading-none text-ivory/[0.03] uppercase tracking-tight whitespace-nowrap">
           SATYA
         </span>
       </div>
@@ -158,22 +159,6 @@ export function Hero() {
           <a href="#projects" className="btn-primary">Explore my work</a>
           <a href="#contact" className="btn-secondary">Contact me</a>
         </div>
-
-        {hasAvatar && (
-          <div className="flex justify-center gap-2 mt-8 animate-fade-in">
-            {['Wave', 'Idle', 'Walking', 'Yes', 'ThumbsUp'].map((anim) => (
-              <button
-                key={anim}
-                onClick={() => setAvatarAnimation(anim)}
-                className={`px-3 py-1.5 text-[10px] uppercase tracking-wider transition-all ${
-                  avatarAnimation === anim ? 'bg-accent text-ink' : 'bg-graphite/60 text-silver border border-slate/30'
-                }`}
-              >
-                {anim}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">

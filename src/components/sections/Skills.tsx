@@ -27,7 +27,7 @@ export function Skills() {
     : skillCategories;
 
   return (
-    <section id="skills" ref={sectionRef} className="relative py-32 lg:py-48 bg-ink overflow-hidden">
+    <section id="skills" ref={sectionRef} className="relative py-32 lg:py-48 overflow-hidden bg-ink">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <p className="eyebrow mb-6">Expertise</p>

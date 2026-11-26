@@ -29,7 +29,7 @@ export function Framework() {
   }, []);
 
   return (
-    <section id="framework" ref={sectionRef} className="relative py-32 lg:py-48 bg-charcoal overflow-hidden">
+    <section id="framework" ref={sectionRef} className="relative py-32 lg:py-48 overflow-hidden bg-charcoal">
       <div className="absolute inset-0 bg-gradient-to-b from-ink to-charcoal" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

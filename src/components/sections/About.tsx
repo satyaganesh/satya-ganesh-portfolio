@@ -29,8 +29,8 @@ export function About() {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="relative py-32 lg:py-48 bg-charcoal overflow-hidden">
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-graphite/30 to-transparent" />
+    <section id="about" ref={sectionRef} className="relative py-32 lg:py-48 overflow-hidden bg-charcoal">
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-graphite/40 to-transparent" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
@@ -53,8 +53,8 @@ export function About() {
               </p>
             </div>
 
-            <div className="mt-10 flex items-center gap-4">
-              <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-accent/30">
+            <div className="mt-10 flex items-center gap-6">
+              <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-accent/40 shadow-lg shadow-accent/10">
                 <img src="images/profile.jpg" alt={siteConfig.name} className="w-full h-full object-cover" />
               </div>
               <div>
@@ -66,7 +66,7 @@ export function About() {
 
           <div className="chapters-grid space-y-2">
             {aboutChapters.map((ch) => (
-              <div key={ch.num} className="chapter group flex items-start gap-6 p-6 lg:p-8 border border-slate/30 hover:border-accent/40 transition-colors bg-graphite/20">
+              <div key={ch.num} className="chapter group flex items-start gap-6 p-6 lg:p-8 border border-slate/30 hover:border-accent/50 transition-colors bg-graphite/30">
                 <span className="chapter-num">{ch.num}</span>
                 <div>
                   <h3 className="font-display text-2xl lg:text-3xl uppercase text-ivory tracking-wide mb-2">{ch.title}</h3>

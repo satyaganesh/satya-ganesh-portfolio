@@ -2,7 +2,7 @@ import { siteConfig } from '@/data';
 
 export function Resume() {
   return (
-    <section id="resume" className="relative py-24 lg:py-32 bg-graphite overflow-hidden">
+    <section id="resume" className="relative py-24 lg:py-32 overflow-hidden bg-graphite">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-10 p-8 lg:p-16 bg-charcoal border border-slate/30">
           <div>

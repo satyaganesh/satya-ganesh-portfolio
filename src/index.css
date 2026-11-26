@@ -22,7 +22,8 @@
   }
 
   body {
-    @apply bg-ink text-ivory font-sans antialiased;
+    @apply text-ivory font-sans antialiased;
+    background: #151517;
     overflow-x: hidden;
   }
 

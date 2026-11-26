@@ -28,7 +28,7 @@ export function Contact() {
   }, []);
 
   return (
-    <section id="contact" ref={sectionRef} className="relative py-32 lg:py-48 bg-ink overflow-hidden">
+    <section id="contact" ref={sectionRef} className="relative py-32 lg:py-48 overflow-hidden bg-ink">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_#1c1c1f_0%,_#0e0e0f_70%)]" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -71,6 +71,12 @@ export function Contact() {
               {social.name}
             </a>
           ))}
+        </div>
+
+        <div className="contact-line mt-12 flex justify-center">
+          <div className="w-40 h-40 rounded-full overflow-hidden border-2 border-accent/30 shadow-xl shadow-accent/10">
+            <img src="images/profile.jpg" alt="Satya Ganesh" className="w-full h-full object-cover" />
+          </div>
         </div>
       </div>
     </section>
