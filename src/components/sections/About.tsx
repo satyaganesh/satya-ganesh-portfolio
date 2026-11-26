@@ -62,7 +62,7 @@ export function About() {
           <div className="relative animate-item">
             <div className="aspect-square max-w-xs mx-auto md:max-w-none">
               <img
-                src="/images/profile pic.jpeg"
+                src="images/profile.jpg"
                 alt={`${siteConfig.name} - AI Performance Test Engineer`}
                 className="w-full h-full object-cover rounded-2xl border border-dark-700 shadow-2xl shadow-primary-500/10"
               />
