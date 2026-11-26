@@ -8,6 +8,7 @@ import { Section } from '@/components/ui/Section';
 import { Card } from '@/components/ui/Card';
 import { useGSAP, useReducedMotion } from '@/hooks/useGSAP';
 import { siteConfig, skillCategories } from '@/data';
+import { Avatar3D } from './Avatar3D';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,13 +61,7 @@ export function About() {
 
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           <div className="relative animate-item">
-            <div className="aspect-square max-w-xs mx-auto md:max-w-none">
-              <img
-                src="images/profile.jpg"
-                alt={`${siteConfig.name} - AI Performance Test Engineer`}
-                className="w-full h-full object-cover rounded-2xl border border-dark-700 shadow-2xl shadow-primary-500/10"
-              />
-            </div>
+            <Avatar3D />
           </div>
 
           <div className="space-y-6">
