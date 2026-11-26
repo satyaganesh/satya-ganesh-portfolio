@@ -111,7 +111,7 @@ function Scene({ avatarAnimation, hasAvatar }: { avatarAnimation: string; hasAva
 
 export function Hero() {
   const [hasAvatar, setHasAvatar] = useState(false);
-  const [avatarAnimation, setAvatarAnimation] = useState('Idle');
+  const avatarAnimation = 'Idle';
 
   useEffect(() => {
     fetch(AVATAR_URL, { method: 'HEAD' })
