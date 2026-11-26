@@ -1,27 +1,28 @@
-import { useRef, useMemo, Suspense } from 'react';
+import { useRef, useMemo, Suspense, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float } from '@react-three/drei';
+import { Float, useGLTF, useAnimations, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import { siteConfig } from '@/data';
 
+const AVATAR_URL = '/models/avatar.glb';
+
 function ParticleField() {
   const ref = useRef<THREE.Points>(null);
-  const count = 800;
+  const count = 600;
 
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 25;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 25;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 15 - 3;
+      arr[i * 3] = (Math.random() - 0.5) * 20;
+      arr[i * 3 + 1] = (Math.random() - 0.5) * 20;
+      arr[i * 3 + 2] = (Math.random() - 0.5) * 12 - 3;
     }
     return arr;
   }, []);
 
   useFrame((state) => {
     if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.03;
-      ref.current.rotation.x = state.clock.elapsedTime * 0.01;
+      ref.current.rotation.y = state.clock.elapsedTime * 0.025;
     }
   });
 
@@ -30,84 +31,104 @@ function ParticleField() {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.05} color="#c9a96e" transparent opacity={0.8} sizeAttenuation />
+      <pointsMaterial size={0.04} color="#c9a96e" transparent opacity={0.7} sizeAttenuation />
     </points>
   );
 }
 
-function FloatingGeometry() {
-  const mesh1 = useRef<THREE.Mesh>(null);
-  const mesh2 = useRef<THREE.Mesh>(null);
-  const mesh3 = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (mesh1.current) {
-      mesh1.current.rotation.x = state.clock.elapsedTime * 0.3;
-      mesh1.current.rotation.y = state.clock.elapsedTime * 0.2;
-    }
-    if (mesh2.current) {
-      mesh2.current.rotation.y = state.clock.elapsedTime * 0.4;
-      mesh2.current.rotation.z = state.clock.elapsedTime * 0.15;
-    }
-    if (mesh3.current) {
-      mesh3.current.rotation.x = state.clock.elapsedTime * 0.25;
-    }
-  });
-
+function FloatingShapes() {
   return (
     <>
       <Float speed={2} rotationIntensity={1.5} floatIntensity={2}>
-        <mesh ref={mesh1} position={[-5, 1.5, -3]}>
-          <icosahedronGeometry args={[1.2, 0]} />
-          <meshStandardMaterial color="#c9a96e" wireframe transparent opacity={0.6} />
+        <mesh position={[-4.5, 1.5, -3]}>
+          <icosahedronGeometry args={[1, 0]} />
+          <meshStandardMaterial color="#c9a96e" wireframe transparent opacity={0.5} />
         </mesh>
       </Float>
       <Float speed={1.5} rotationIntensity={2} floatIntensity={1.5}>
-        <mesh ref={mesh2} position={[5, -1, -2]}>
-          <octahedronGeometry args={[0.9, 0]} />
-          <meshStandardMaterial color="#a8a49e" wireframe transparent opacity={0.5} />
+        <mesh position={[4.5, -1, -2]}>
+          <octahedronGeometry args={[0.8, 0]} />
+          <meshStandardMaterial color="#a8a49e" wireframe transparent opacity={0.4} />
         </mesh>
       </Float>
       <Float speed={2.5} rotationIntensity={1} floatIntensity={2.5}>
-        <mesh ref={mesh3} position={[0, 2.5, -4]}>
-          <torusGeometry args={[0.7, 0.25, 12, 24]} />
-          <meshStandardMaterial color="#efebe4" wireframe transparent opacity={0.4} />
-        </mesh>
-      </Float>
-      <Float speed={1.8} rotationIntensity={2.5} floatIntensity={1}>
-        <mesh position={[-3, -2, -1]}>
-          <dodecahedronGeometry args={[0.6, 0]} />
-          <meshStandardMaterial color="#c9a96e" wireframe transparent opacity={0.5} />
+        <mesh position={[0, 2.5, -4]}>
+          <torusGeometry args={[0.6, 0.2, 12, 24]} />
+          <meshStandardMaterial color="#efebe4" wireframe transparent opacity={0.35} />
         </mesh>
       </Float>
     </>
   );
 }
 
-function Scene() {
+function AvatarModel({ animation }: { animation: string }) {
+  const { scene, animations } = useGLTF(AVATAR_URL);
+  const { actions } = useAnimations(animations, scene);
+
+  useEffect(() => {
+    const action = actions[animation] || Object.values(actions)[0];
+    if (action) {
+      Object.values(actions).forEach((a) => a?.stop());
+      action.reset().fadeIn(0.3).play();
+    }
+    return () => { action?.fadeOut(0.3); };
+  }, [animation, actions]);
+
+  return <primitive object={scene} scale={1.2} position={[0, -1.5, 0]} />;
+}
+
+function AvatarFallback() {
+  return (
+    <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
+      <mesh position={[0, 0, 0]}>
+        <capsuleGeometry args={[0.5, 1.5, 8, 16]} />
+        <meshStandardMaterial color="#c9a96e" wireframe transparent opacity={0.3} />
+      </mesh>
+    </Float>
+  );
+}
+
+function Scene({ avatarAnimation, hasAvatar }: { avatarAnimation: string; hasAvatar: boolean }) {
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[5, 5, 5]} intensity={1} color="#c9a96e" />
-      <pointLight position={[-5, 3, -5]} intensity={0.5} color="#a8a49e" />
+      <ambientLight intensity={0.6} />
+      <pointLight position={[5, 5, 5]} intensity={1.2} color="#c9a96e" />
+      <pointLight position={[-5, 3, -5]} intensity={0.6} color="#a8a49e" />
       <ParticleField />
-      <FloatingGeometry />
+      <FloatingShapes />
+      {hasAvatar ? (
+        <Suspense fallback={<AvatarFallback />}>
+          <AvatarModel animation={avatarAnimation} />
+          <ContactShadows position={[0, -2.8, 0]} opacity={0.3} scale={8} blur={2.5} far={4} color="#c9a96e" />
+        </Suspense>
+      ) : (
+        <AvatarFallback />
+      )}
     </>
   );
 }
 
 export function Hero() {
+  const [hasAvatar, setHasAvatar] = useState(false);
+  const [avatarAnimation, setAvatarAnimation] = useState('Idle');
+
+  useEffect(() => {
+    fetch(AVATAR_URL, { method: 'HEAD' })
+      .then((r) => setHasAvatar(r.ok))
+      .catch(() => setHasAvatar(false));
+  }, []);
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ink">
       <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 10], fov: 50 }} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }}>
+        <Canvas camera={{ position: [0, 0.5, 8], fov: 45 }} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }}>
           <Suspense fallback={null}>
-            <Scene />
+            <Scene avatarAnimation={avatarAnimation} hasAvatar={hasAvatar} />
           </Suspense>
         </Canvas>
       </div>
 
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_#0e0e0f_70%)]" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_#0e0e0f_65%)]" />
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 select-none pointer-events-none">
         <span className="font-display text-[25vw] leading-none text-ivory/[0.04] uppercase tracking-tight whitespace-nowrap">
@@ -137,6 +158,22 @@ export function Hero() {
           <a href="#projects" className="btn-primary">Explore my work</a>
           <a href="#contact" className="btn-secondary">Contact me</a>
         </div>
+
+        {hasAvatar && (
+          <div className="flex justify-center gap-2 mt-8 animate-fade-in">
+            {['Wave', 'Idle', 'Walking', 'Yes', 'ThumbsUp'].map((anim) => (
+              <button
+                key={anim}
+                onClick={() => setAvatarAnimation(anim)}
+                className={`px-3 py-1.5 text-[10px] uppercase tracking-wider transition-all ${
+                  avatarAnimation === anim ? 'bg-accent text-ink' : 'bg-graphite/60 text-silver border border-slate/30'
+                }`}
+              >
+                {anim}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
@@ -145,3 +182,5 @@ export function Hero() {
     </section>
   );
 }
+
+useGLTF.preload(AVATAR_URL);
