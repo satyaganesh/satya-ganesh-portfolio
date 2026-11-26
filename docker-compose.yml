@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Development service with hot reload
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run dev -- --host 0.0.0.0
+
+  # Production service
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+
+  # Preview production build locally
+  preview:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "4173:80"
+    environment:
+      - NODE_ENV=production
+    profiles:
+      - preview
