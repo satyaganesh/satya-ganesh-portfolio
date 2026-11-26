@@ -74,7 +74,7 @@ function AvatarModel({ animation }: { animation: string }) {
     return () => { action?.fadeOut(0.3); };
   }, [animation, actions]);
 
-  return <primitive object={scene} scale={1.2} position={[0, -1.5, 0]} />;
+  return <primitive object={scene} scale={2.2} position={[3.2, -1.8, 0]} />;
 }
 
 function AvatarFallback() {
@@ -99,7 +99,7 @@ function Scene({ avatarAnimation, hasAvatar }: { avatarAnimation: string; hasAva
       {hasAvatar ? (
         <Suspense fallback={<AvatarFallback />}>
           <AvatarModel animation={avatarAnimation} />
-          <ContactShadows position={[0, -2.8, 0]} opacity={0.3} scale={8} blur={2.5} far={4} color="#c9a96e" />
+          <ContactShadows position={[3.2, -2.8, 0]} opacity={0.3} scale={8} blur={2.5} far={4} color="#c9a96e" />
         </Suspense>
       ) : (
         <AvatarFallback />
@@ -121,7 +121,7 @@ export function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ink">
       <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0.5, 8], fov: 45 }} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }}>
+        <Canvas camera={{ position: [0, 0.5, 10], fov: 50 }} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }}>
           <Suspense fallback={null}>
             <Scene avatarAnimation={avatarAnimation} hasAvatar={hasAvatar} />
           </Suspense>
@@ -136,7 +136,7 @@ export function Hero() {
         </span>
       </div>
 
-      <div className="relative z-10 text-center max-w-5xl mx-auto px-4 py-32">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 py-32 lg:ml-[8%] lg:mr-[35%]">
         <div className="inline-flex items-center gap-3 mb-10 animate-fade-in">
           <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
           <span className="text-xs font-medium tracking-[0.3em] uppercase text-silver">Open to opportunities</span>
@@ -144,17 +144,17 @@ export function Hero() {
 
         <p className="eyebrow mb-6 animate-slide-up">{siteConfig.title}</p>
 
-        <h1 className="font-display text-7xl lg:text-9xl xl:text-[10rem] leading-[0.85] tracking-tight uppercase mb-8 animate-slide-up" style={{ animationDelay: '0.1s' }}>
+        <h1 className="font-display text-6xl lg:text-8xl xl:text-[9rem] leading-[0.85] tracking-tight uppercase mb-8 animate-slide-up" style={{ animationDelay: '0.1s' }}>
           <span className="text-ivory">SATYA</span>
           <br />
           <span className="text-gradient">GANESH</span>
         </h1>
 
-        <p className="font-serif italic text-2xl lg:text-3xl text-mist max-w-2xl mx-auto mb-12 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+        <p className="font-serif italic text-xl lg:text-2xl text-mist max-w-xl mb-12 animate-slide-up" style={{ animationDelay: '0.2s' }}>
           {siteConfig.tagline}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+        <div className="flex flex-col sm:flex-row items-start gap-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
           <a href="#projects" className="btn-primary">Explore my work</a>
           <a href="#contact" className="btn-secondary">Contact me</a>
         </div>
